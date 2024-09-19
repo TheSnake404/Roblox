@@ -12,12 +12,12 @@ local OrionLib = {
 	Flags = {},
 	Themes = {
 		Default = {
-			Main = Color3.fromRGB(8, 12, 24),         -- Almost Black with a Blue Hue for a sleek, high-contrast main background
-			Second = Color3.fromRGB(18, 32, 64),      -- Dark Blue-Grey for secondary backgrounds
-			Stroke = Color3.fromRGB(0, 192, 255),     -- Electric Neon Cyan for strokes and highlights
-			Divider = Color3.fromRGB(0, 102, 153),    -- Muted Teal Blue for dividers
-			Text = Color3.fromRGB(190, 230, 255),     -- Light Cyan-White for main text
-			TextDark = Color3.fromRGB(130, 180, 210), -- Soft Cool Blue for secondary text
+			Main = Color3.fromRGB(10, 25, 47),
+			Second = Color3.fromRGB(24, 44, 67),
+			Stroke = Color3.fromRGB(29, 161, 242),
+			Divider = Color3.fromRGB(72, 202, 245),
+			Text = Color3.fromRGB(214, 234, 248),
+			TextDark = Color3.fromRGB(128, 170, 204)
 		}
 	},
 	SelectedTheme = "Default",
@@ -913,7 +913,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				ToggleConfig.Name = ToggleConfig.Name or "Toggle"
 				ToggleConfig.Default = ToggleConfig.Default or false
 				ToggleConfig.Callback = ToggleConfig.Callback or function() end
-				ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(9, 99, 195)
+				ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(20, 80, 20)
 				ToggleConfig.Flag = ToggleConfig.Flag or nil
 				ToggleConfig.Save = ToggleConfig.Save or false
 
