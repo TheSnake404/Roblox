@@ -1158,42 +1158,53 @@ function OrionLib:MakeWindow(WindowConfig)
 					DropdownContainer.CanvasSize = UDim2.new(0, 0, 0, DropdownList.AbsoluteContentSize.Y)
 				end)  
 
-				local function AddOptions(Options)
-					for _, Option in pairs(Options) do
-						local OptionBtn = AddThemeObject(SetProps(SetChildren(MakeElement("Button", Color3.fromRGB(40, 40, 40)), {
-							MakeElement("Corner", 0, 6),
-							AddThemeObject(SetProps(MakeElement("Label", Option, 13, 0.4), {
-								Position = UDim2.new(0, 8, 0, 0),
-								Size = UDim2.new(1, -8, 1, 0),
-								Name = "Title"
-							}), "Text")
-						}), {
-							Parent = DropdownContainer,
-							Size = UDim2.new(1, 0, 0, 28),
-							BackgroundTransparency = 1,
-							ClipsDescendants = true
-						}), "Divider")
-
-						AddConnection(OptionBtn.MouseButton1Click, function()
-							Dropdown:Set(Option)
-							SaveCfg(game.GameId)
-						end)
-
-						Dropdown.Buttons[Option] = OptionBtn
-					end
-				end	
-
-				function Dropdown:Refresh(Options, Delete)
-					if Delete then
-						for _,v in pairs(Dropdown.Buttons) do
-							v:Destroy()
-						end    
-						table.clear(Dropdown.Options)
-						table.clear(Dropdown.Buttons)
-					end
-					Dropdown.Options = Options
-					AddOptions(Dropdown.Options)
-				end  
+                local function AddOptions(Options)
+                    -- Add buttons for each option in the provided Options list
+                    for _, Option in pairs(Options) do
+                        -- Check if the button already exists before adding a new one
+                        if not Dropdown.Buttons[Option] then
+                            -- Create the button if it doesn't exist
+                            local OptionBtn = AddThemeObject(SetProps(SetChildren(MakeElement("Button", Color3.fromRGB(40, 40, 40)), {
+                                MakeElement("Corner", 0, 6),
+                                AddThemeObject(SetProps(MakeElement("Label", Option, 13, 0.4), {
+                                    Position = UDim2.new(0, 8, 0, 0),
+                                    Size = UDim2.new(1, -8, 1, 0),
+                                    Name = "Title"
+                                }), "Text")
+                            }), {
+                                Parent = DropdownContainer,
+                                Size = UDim2.new(1, 0, 0, 28),
+                                BackgroundTransparency = 1,
+                                ClipsDescendants = true
+                            }), "Divider")
+                
+                            -- Add click handler for the button
+                            AddConnection(OptionBtn.MouseButton1Click, function()
+                                Dropdown:Set(Option)
+                                SaveCfg(game.GameId)
+                            end)
+                
+                            -- Store the button reference in Dropdown.Buttons table
+                            Dropdown.Buttons[Option] = OptionBtn
+                        end
+                    end
+                end
+                
+                function Dropdown:Refresh(Options, Delete)
+                    if Delete then
+                        -- If Delete is true, destroy all buttons and clear the options table
+                        for _, v in pairs(Dropdown.Buttons) do
+                            v:Destroy()
+                        end
+                        table.clear(Dropdown.Options)
+                        table.clear(Dropdown.Buttons)
+                    end
+                
+                    -- Update the dropdown options and add them
+                    Dropdown.Options = Options
+                    AddOptions(Dropdown.Options)
+                end
+                
 
 				function Dropdown:Set(Value)
 					if not table.find(Dropdown.Options, Value) then
@@ -1704,52 +1715,6 @@ function OrionLib:MakeWindow(WindowConfig)
 		end
 		return ElementFunction   
 	end  
-	
-	--if writefile and isfile then
-	--	if not isfile("NewLibraryNotification1.txt") then
-	--		local http_req = (syn and syn.request) or (http and http.request) or http_request
-	--		if http_req then
-	--			http_req({
-	--				Url = 'http://127.0.0.1:6463/rpc?v=1',
-	--				Method = 'POST',
-	--				Headers = {
-	--					['Content-Type'] = 'application/json',
-	--					Origin = 'https://discord.com'
-	--				},
-	--				Body = HttpService:JSONEncode({
-	--					cmd = 'INVITE_BROWSER',
-	--					nonce = HttpService:GenerateGUID(false),
-	--					args = {code = 'sirius'}
-	--				})
-	--			})
-	--		end
-	--		OrionLib:MakeNotification({
-	--			Name = "UI Library Available",
-	--			Content = "New UI Library Available - Joining Discord (#announcements)",
-	--			Time = 8
-	--		})
-	--		spawn(function()
-	--			local UI = game:GetObjects("rbxassetid://11403719739")[1]
-
-	--			if gethui then
-	--				UI.Parent = gethui()
-	--			elseif syn.protect_gui then
-	--				syn.protect_gui(UI)
-	--				UI.Parent = game.CoreGui
-	--			else
-	--				UI.Parent = game.CoreGui
-	--			end
-
-	--			wait(11)
-
-	--			UI:Destroy()
-	--		end)
-	--		writefile("NewLibraryNotification1.txt","The value for the notification having been sent to you.")
-	--	end
-	--end
-	
-
-	
 	return TabFunction
 end   
 
